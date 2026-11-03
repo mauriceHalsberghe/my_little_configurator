@@ -27,12 +27,6 @@ export default function Configurator () {
         { COLORS.map(c =>
           <label key={c.value}>
             <span className={styles.option}>
-              <img
-                className={styles.previewImage}
-                src={`/previews/color-${c.label.toLowerCase()}.svg`}
-                alt=""
-                aria-hidden="true"
-              />
               {c.label}
             </span>
             <input
@@ -50,7 +44,6 @@ export default function Configurator () {
         <h2>Finish</h2>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/finish-shiny.svg" alt="" aria-hidden="true" />
             Shiny
           </span>
           <input 
@@ -62,7 +55,6 @@ export default function Configurator () {
         </label>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/finish-matte.svg" alt="" aria-hidden="true" />
             Matte
           </span>
           <input 
@@ -78,7 +70,6 @@ export default function Configurator () {
         <h2>Trays</h2>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/tray-single.svg" alt="" aria-hidden="true" />
             Single
           </span>
           <input 
@@ -90,7 +81,6 @@ export default function Configurator () {
         </label>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/tray-double.svg" alt="" aria-hidden="true" />
             Double
           </span>
           <input 
@@ -107,7 +97,6 @@ export default function Configurator () {
         <h2>Interface</h2>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/interface-analog.svg" alt="" aria-hidden="true" />
             Analog
           </span>
           <input 
@@ -119,7 +108,6 @@ export default function Configurator () {
         </label>
         <label>
           <span className={styles.option}>
-            <img className={styles.previewImage} src="/previews/interface-digital.svg" alt="" aria-hidden="true" />
             Digital
           </span>
           <input 
