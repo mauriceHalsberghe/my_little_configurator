@@ -8,11 +8,12 @@ import { useTrayAnimation } from "./animations/useTrayAnimation";
 import { usePanelAnimation } from "./animations/usePanelAnimation";
 
 const AirFryer = () => {
-    const { scene } = useGLTF("./models/airfryer_model_v003.glb");
+    const { scene } = useGLTF("./models/airfryer_model_v006.glb");
     const color = useConfig((s) => s.color);
     const shiny = useConfig((s) => s.shiny);
     const tray = useConfig((s) => s.tray);
     const digital = useConfig((s) => s.digital);
+    const glass = useConfig((s) => s.glass);
 
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const AirFryer = () => {
 
     useColorAnimation(scene, "Red plastic", color);
     useFinishAnimation(scene, "Red plastic", shiny);
-    useTrayAnimation(scene, tray);
+    useTrayAnimation(scene, tray, glass);
     usePanelAnimation(scene, digital);
 
     return <primitive object={scene} position-y={-3} castShadow />;

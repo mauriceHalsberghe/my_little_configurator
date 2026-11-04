@@ -3,8 +3,13 @@ import * as THREE from "three";
 export type Part = {
   obj: THREE.Object3D;
   position: THREE.Vector3; // rest position
-  scale: THREE.Vector3;    // rest scale
-  mats: { material: THREE.Material; opacity: number }[];
+  scale: THREE.Vector3; // rest scale
+  mats: {
+    material: THREE.Material;
+    opacity: number;
+    transparent: boolean;
+    depthWrite: boolean;
+  }[];
 };
 
 export function collectParts(scene: THREE.Object3D, names: string[]): Part[] {
@@ -28,18 +33,26 @@ export function collectParts(scene: THREE.Object3D, names: string[]): Part[] {
       }
 
       for (const material of [child.material].flat() as THREE.Material[]) {
-        material.transparent = true;
-        material.needsUpdate = true; // required if the material was already compiled as opaque
-        mats.push({ material, opacity: material.opacity });
+        mats.push({
+          material,
+          opacity: material.opacity,
+          transparent: material.transparent,
+          depthWrite: material.depthWrite,
+        });
       }
     });
 
-    return [{ obj, position: obj.position.clone(), scale: obj.scale.clone(), mats }];
+    return [
+      { obj, position: obj.position.clone(), scale: obj.scale.clone(), mats },
+    ];
   });
 }
 
 // All materials with a given name, including the clones made above
-export function getMaterials<T extends THREE.Material>(scene: THREE.Object3D, name: string): T[] {
+export function getMaterials<T extends THREE.Material>(
+  scene: THREE.Object3D,
+  name: string,
+): T[] {
   const found = new Set<T>();
   scene.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
