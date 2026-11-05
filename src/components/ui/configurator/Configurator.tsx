@@ -47,6 +47,17 @@ export default function Configurator({
         setGlass,
     } = useConfig();
 
+    const sectionOrder: ConfiguratorSection[] = [
+        "color",
+        "finish",
+        "trays",
+        "interface",
+        "glass",
+    ];
+
+    const isLastSection = activeSection === "glass";
+    const nextSection = sectionOrder[sectionOrder.indexOf(activeSection) + 1];
+
     return (
         <>
             <Navigation
@@ -106,6 +117,18 @@ export default function Configurator({
                         onChange={setGlass}
                     />
                 )}
+
+                <button
+                    type="button"
+                    className={styles.button}
+                    onClick={() => {
+                        if (!isLastSection && nextSection) {
+                            onSelectSection(nextSection);
+                        }
+                    }}
+                >
+                    {isLastSection ? "Add to Cart" : "Next"}
+                </button>
             </aside>
         </>
     );

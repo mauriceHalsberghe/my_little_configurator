@@ -3,7 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import Experience from "./components/experience/Experience.tsx";
 import type { ConfiguratorSection } from "./components/ui/navigation/Navigation.tsx";
 import * as THREE from "three";
-import Configurator from "./components/ui/configurator/Configurator.tsx";
+import Configurator from "./components/ui/configurator/configurator.tsx";
+
 
 export default function App() {
   const [activeSection, setActiveSection] =
@@ -15,7 +16,7 @@ export default function App() {
         <div className="viewer">
           <Canvas
             shadows
-            camera={{ position: [-9, 3.5, 11], fov: 35 }}
+            camera={{ position: [-9, 3.5, 11], fov: 30 }}
             gl={{ toneMapping: THREE.NoToneMapping }}
           >
             <Experience section={activeSection} />

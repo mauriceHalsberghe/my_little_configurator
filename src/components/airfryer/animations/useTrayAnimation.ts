@@ -2,6 +2,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import type { ConfiguratorSection } from "../../ui/navigation/Navigation";
 import { collectParts, type Part } from "./parts";
 
 const TRAY_1 = ["Tray1_Handle", "Tray1_Container"];
@@ -17,7 +18,9 @@ const GLASS_TRAY_2 = [
   "Tray_2_panel_glass",
 ];
 
-const SLIDE = { axis: "z" as "x" | "y" | "z", distance: 2 };
+const SLIDE = { axis: "z" as "x" | "y" | "z", distance: 3 };
+const TRAY_SECTION_OPEN_OFFSET = 1.5;
+const GLASS_TRANSITION_DURATION = 0.8;
 
 const TIMING = { slideOut: 0.5, fadeOut: 0.5, fadeIn: 0.5, slideIn: 0.5 };
 
@@ -46,15 +49,15 @@ const restoreMaterialState = (parts: Part[]) =>
     material.depthWrite = depthWrite;
   });
 
-const slideValue = (parts: Part[], out: boolean) => ({
-  [SLIDE.axis]: (i: number) =>
-    parts[i].position[SLIDE.axis] + (out ? SLIDE.distance : 0),
+const slideValue = (parts: Part[], distance: number) => ({
+  [SLIDE.axis]: (i: number) => parts[i].position[SLIDE.axis] + distance,
 });
 
 export function useTrayAnimation(
   scene: THREE.Object3D,
   tray2: boolean,
   glass: boolean,
+  section: ConfiguratorSection,
 ) {
   const parts = useMemo(
     () => ({
@@ -68,6 +71,7 @@ export function useTrayAnimation(
 
   const current = useRef<boolean | null>(null);
   const currentGlass = useRef<boolean | null>(null);
+  const currentSection = useRef<ConfiguratorSection | null>(null);
 
   // Stores the running GSAP timeline so we can cancel or replay it when a new transition starts.
   const tl = useRef<gsap.core.Timeline | null>(null);
@@ -75,10 +79,73 @@ export function useTrayAnimation(
   useGSAP(
     () => {
       const allGlassParts = [...parts.glassTray1, ...parts.glassTray2];
+      const trayOpenOffset = section === "trays" ? TRAY_SECTION_OPEN_OFFSET : 0;
 
       if (current.current === null || currentGlass.current !== glass) {
         if (current.current !== null && currentGlass.current !== glass) {
           tl.current?.progress(1).kill();
+
+          const activeTray = tray2 ? parts.tray2 : parts.tray1;
+          const activeGlassTray = tray2 ? parts.glassTray2 : parts.glassTray1;
+          const leaving = currentGlass.current ? activeGlassTray : activeTray;
+          const entering = glass ? activeGlassTray : activeTray;
+
+          setVisible(parts.tray1, false);
+          setVisible(parts.tray2, false);
+          setVisible(parts.glassTray1, false);
+          setVisible(parts.glassTray2, false);
+
+          setVisible(leaving, true);
+          setVisible(entering, true);
+
+          const leavingMats = mats(leaving);
+          const enteringMats = mats(entering);
+
+          setFading(leaving);
+          setFading(entering);
+          enteringMats.forEach(({ material }) => {
+            material.opacity = 0;
+          });
+
+          const timeline = gsap.timeline();
+          tl.current = timeline;
+
+          timeline.to(
+            leavingMats.map((m) => m.material),
+            {
+              opacity: 0,
+              duration: GLASS_TRANSITION_DURATION,
+              ease: "sine.inOut",
+            },
+            0,
+          );
+
+          timeline.to(
+            enteringMats.map((m) => m.material),
+            {
+              opacity: (i: number) => enteringMats[i].opacity,
+              duration: GLASS_TRANSITION_DURATION,
+              ease: "sine.inOut",
+            },
+            0,
+          );
+
+          timeline.call(() => {
+            setVisible(leaving, false);
+            leavingMats.forEach(({ material, opacity }) => {
+              material.opacity = opacity;
+            });
+            enteringMats.forEach(({ material, opacity }) => {
+              material.opacity = opacity;
+            });
+            restoreMaterialState(leaving);
+            restoreMaterialState(entering);
+          }, undefined, GLASS_TRANSITION_DURATION);
+
+          current.current = tray2;
+          currentGlass.current = glass;
+          currentSection.current = section;
+          return;
         }
 
         if (glass) {
@@ -91,8 +158,17 @@ export function useTrayAnimation(
 
         setVisible(allGlassParts, glass);
         setVisible(tray2 ? parts.glassTray1 : parts.glassTray2, false);
+
+        if (section === "trays") {
+          const visibleTray = glass ? (tray2 ? parts.glassTray2 : parts.glassTray1) : tray2 ? parts.tray2 : parts.tray1;
+          visibleTray.forEach(({ obj, position }) => {
+            obj.position[SLIDE.axis] = position[SLIDE.axis] + trayOpenOffset;
+          });
+        }
+
         current.current = tray2;
         currentGlass.current = glass;
+        currentSection.current = section;
         return;
       }
 
@@ -102,11 +178,30 @@ export function useTrayAnimation(
       const incoming = tray2 ? tray2Parts : tray1;
       const outgoing = tray2 ? tray1 : tray2Parts;
 
-      // If the same tray is already active, there is nothing to animate.
-      if (current.current === tray2) return;
+      if (current.current === tray2) {
+        if (currentSection.current !== section) {
+          const activeTray = glass
+            ? tray2
+              ? parts.glassTray2
+              : parts.glassTray1
+            : tray2
+              ? parts.tray2
+              : parts.tray1;
+
+          tl.current?.kill();
+          tl.current = gsap.timeline().to(positions(activeTray), {
+            ...slideValue(activeTray, trayOpenOffset),
+            duration: 0.5,
+            ease: "power2.inOut",
+          });
+          currentSection.current = section;
+        }
+        return;
+      }
 
       // Update the remembered tray before building the new timeline.
       current.current = tray2;
+      currentSection.current = section;
 
       // If a previous transition is still running, finish it immediately so the next one starts cleanly.
       tl.current?.progress(1).kill();
@@ -124,11 +219,13 @@ export function useTrayAnimation(
       const timeline = gsap.timeline();
       tl.current = timeline;
 
+      const incomingEndOffset = section === "trays" ? TRAY_SECTION_OPEN_OFFSET : 0;
+
       // Phase 1: the currently visible tray slides outward to simulate it being pulled away.
       timeline.to(
         positions(outgoing),
         {
-          ...slideValue(outgoing, true),
+          ...slideValue(outgoing, SLIDE.distance),
           duration: slideOut,
           ease: "power2.inOut",
         },
@@ -181,13 +278,13 @@ export function useTrayAnimation(
       timeline.to(
         positions(incoming),
         {
-          ...slideValue(incoming, false),
+          ...slideValue(incoming, incomingEndOffset),
           duration: slideIn,
           ease: "power3.out",
         },
         tSlideIn,
       );
     },
-    { dependencies: [parts, tray2, glass] },
+    { dependencies: [parts, tray2, glass, section] },
   );
 }

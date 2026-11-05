@@ -73,6 +73,20 @@
     font-size: 1.4rem;
 }
 
+.button {
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-width: 0;
+    color: black;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid black;
+    padding: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+}
+
 @media (max-width: 700px) {
     .configurator {
         top: 1rem;
