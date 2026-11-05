@@ -7,7 +7,7 @@ import * as THREE from "three";
 import AirFryer from "../airfryer/AirFryer";
 import Floor from "../floor/Floor";
 import LightSetup from "./LightSetup";
-import type { ConfiguratorSection } from "../navigation/Navigation";
+import type { ConfiguratorSection } from "../ui/navigation/Navigation";
 
 const CAMERA_PRESETS: Record<
   ConfiguratorSection,
@@ -17,7 +17,7 @@ const CAMERA_PRESETS: Record<
   finish: { position: [-11, 2.5, 8], target: [1.5, -1, 0] },
   trays: { position: [1, 5, 12], target: [1, 0, 4] },
   interface: { position: [0.5, 5, 7], target: [0.5, 1, 0] },
-  glass: { position: [8, 1, 8], target: [0.5, -1.5, 0] },
+  glass: { position: [7, 1, 10], target: [0.5, -2, -0.5] },
 };
 
 const CameraRig = ({ section }: { section: ConfiguratorSection }) => {

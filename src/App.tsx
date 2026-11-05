@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import Configurator from "./components/configurator/Configurator.tsx";
 import Experience from "./components/experience/Experience.tsx";
-import type { ConfiguratorSection } from "./components/navigation/Navigation.tsx";
+import type { ConfiguratorSection } from "./components/ui/navigation/Navigation.tsx";
 import * as THREE from "three";
+import Configurator from "./components/ui/configurator/Configurator.tsx";
 
 export default function App() {
   const [activeSection, setActiveSection] =
