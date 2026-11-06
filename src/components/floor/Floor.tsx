@@ -1,12 +1,68 @@
+import { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
-
+import * as THREE from "three";
 
 const Floor = () => {
-    const { scene } = useGLTF('./models/floor.glb');
+    const { scene: floorScene } = useGLTF("/models/floor.glb");
+    const { scene: wallScene } = useGLTF("/models/wall.glb");
+    const { scene: saltAndPepperScene } = useGLTF("/models/salt_and_pepper_shakers.glb");
+    const { scene: oliveOilScene } = useGLTF("/models/olive_oil.glb");
+    const { scene: knivesScene } = useGLTF("/models/knives.glb");
+    const { scene: plateScene } = useGLTF("/models/plate.glb");
+    const { scene: friesScene } = useGLTF("/models/fries.glb");
+    const { scene: panScene } = useGLTF("/models/pan.glb");
+
+    useEffect(() => {
+        floorScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.receiveShadow = true;
+        });
+        wallScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.receiveShadow = true;
+        });
+        saltAndPepperScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+        oliveOilScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+        knivesScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+        plateScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+        friesScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+        panScene.traverse((object) => {
+            if (object instanceof THREE.Mesh) object.castShadow = true;
+        });
+    }, [
+        floorScene,
+        wallScene,
+        saltAndPepperScene,
+        oliveOilScene,
+        knivesScene,
+        plateScene,
+        friesScene,
+        panScene,
+    ]);
 
     return (
+        <>
+            <primitive object={floorScene} position={[0, -3.001, 4]} />
+            <primitive object={wallScene} position={[0, -3.001, 0]}/>
+            
+            <primitive object={saltAndPepperScene} scale={10} position={[5, -3, -2]} rotation-y={- Math.PI / 8} />
+            <primitive object={oliveOilScene} scale={0.1} position={[8, -3.15, -1]} />
 
-        <primitive object={scene} position-y={-3.001} castShadow />
+            <primitive object={knivesScene} scale={3} position={[-4.5, -3, -4]} rotation-y={Math.PI / 16} />
+
+            <primitive object={plateScene} scale={0.01} position={[-5.5, -3, 2]} />
+            <primitive object={friesScene} scale={0.18} position={[-5.9, -2.85, 2.6]} />
+
+            <primitive object={panScene} scale={0.27} position={[8, -1.5, -6.2]} rotation-y={-Math.PI / 2} />
+        </>
     );
 };
 

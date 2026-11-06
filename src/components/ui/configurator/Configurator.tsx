@@ -55,8 +55,9 @@ export default function Configurator({
         "glass",
     ];
 
-    const isLastSection = activeSection === "glass";
-    const nextSection = sectionOrder[sectionOrder.indexOf(activeSection) + 1];
+    const activeStep = sectionOrder.indexOf(activeSection) + 1;
+    const isLastSection = activeStep === sectionOrder.length;
+    const nextSection = sectionOrder[activeStep];
 
     return (
         <>
@@ -66,11 +67,43 @@ export default function Configurator({
             />
 
             <aside className={styles.configurator}>
-                <h1 className={styles["configurator__title"]}>Customize your own</h1>
+
+                <div className={styles["configurator__header"]} >
+                    <h1 className={styles["configurator__title"]}>Customize your own</h1>
+                    <h2 className={styles["configurator__subtitle"]}>Step {activeStep} / {sectionOrder.length}</h2>
+                </div>
+
+                <div
+                    className={styles["configurator__steps"]}
+                >
+                    {sectionOrder.map((section, index) => (
+                        <button
+                            type="button"
+                            key={section}
+                            aria-label={`Go to step ${index + 1}: ${section}`}
+                            aria-current={
+                                index === activeStep - 1 ? "step" : undefined
+                            }
+                            className={[
+                                styles["configurator__step"],
+                                index === activeStep - 1
+                                    ? styles["configurator__step--active"]
+                                    : "",
+                                index < activeStep - 1
+                                    ? styles["configurator__step--completed"]
+                                    : "",
+                            ]
+                                .filter(Boolean)
+                                .join(" ")}
+                            onClick={() => onSelectSection(section)}
+                        />
+                    ))}
+                </div>
 
                 {activeSection === "color" && (
                     <OptionGroup
-                        title="Color"
+                        title="Choose your color"
+                        subtitle="Pick a color that suits your kitchen and style."
                         name="color"
                         options={COLORS}
                         value={color}
@@ -80,7 +113,8 @@ export default function Configurator({
 
                 {activeSection === "finish" && (
                     <OptionGroup
-                        title="Finish"
+                        title="Select a finish"
+                        subtitle="Choose a glossy shine or a smooth matte look."
                         name="shiny"
                         options={FINISH_OPTIONS}
                         value={shiny}
@@ -90,7 +124,8 @@ export default function Configurator({
 
                 {activeSection === "trays" && (
                     <OptionGroup
-                        title="Trays"
+                        title="Tray configuration"
+                        subtitle="Choose the capacity that works best for you."
                         name="tray"
                         options={TRAY_OPTIONS}
                         value={tray}
@@ -100,7 +135,8 @@ export default function Configurator({
 
                 {activeSection === "interface" && (
                     <OptionGroup
-                        title="Interface"
+                        title="Control type"
+                        subtitle="Select the controls that feel right for your cooking."
                         name="digital"
                         options={INTERFACE_OPTIONS}
                         value={digital}
@@ -110,7 +146,8 @@ export default function Configurator({
 
                 {activeSection === "glass" && (
                     <OptionGroup
-                        title="Glass"
+                        title="Viewing window"
+                        subtitle="Add a glass window to see your food as it cooks."
                         name="glass"
                         options={GLASS_OPTIONS}
                         value={glass}
@@ -118,17 +155,30 @@ export default function Configurator({
                     />
                 )}
 
-                <button
-                    type="button"
-                    className={styles.button}
-                    onClick={() => {
-                        if (!isLastSection && nextSection) {
-                            onSelectSection(nextSection);
+                <footer className={styles["configurator__footer"]}>
+
+                    <div className={styles["configurator__price-row"]}>
+                        <p className={styles["configurator__price-label"]}>Total</p>
+                        <p className={styles["configurator__price-value"]}>—</p>
+                    </div>
+
+                    <button
+                        type="button"
+                        className={styles.button}
+                        onClick={() => {
+                            if (!isLastSection && nextSection) {
+                                onSelectSection(nextSection);
+                            }
+                        }}
+                    >
+                        { isLastSection ? 
+                            "Add to Cart" : 
+                            `Next: ${nextSection}`
                         }
-                    }}
-                >
-                    {isLastSection ? "Add to Cart" : "Next"}
-                </button>
+                        <img src="./src/assets/arrow-right.svg" /> 
+                    </button>
+                </footer>
+
             </aside>
         </>
     );

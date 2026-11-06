@@ -8,12 +8,15 @@ body {
 }
 
 .page {
+  --configurator-width: 36rem;
   position: relative;
+  display: flex;
   min-height: 100vh;
 }
 
 .viewer {
-  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
   height: 100vh;
   background: #f3f4f6;
 }
@@ -22,4 +25,15 @@ body {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+@media (max-width: 1200px) {
+  .page {
+    flex-direction: column;
+  }
+
+  .viewer {
+    flex: none;
+    height: 55vh;
+  }
 }

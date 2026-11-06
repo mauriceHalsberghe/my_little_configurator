@@ -18,8 +18,11 @@ const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
 
 
     useEffect(() => {
-        scene.traverse((o) => {
-            if (o instanceof THREE.Mesh) o.castShadow = true;
+        scene.traverse((obj) => {
+            if ((obj as THREE.Mesh).isMesh) {
+                obj.castShadow = true;
+                obj.receiveShadow = true;
+            }
         });
     }, [scene]);
 
@@ -28,7 +31,7 @@ const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
     useTrayAnimation(scene, tray, glass, section);
     usePanelAnimation(scene, digital);
 
-    return <primitive object={scene} position-y={-3} castShadow />;
+    return <primitive object={scene} position-y={-3} />;
 };
 
 export default AirFryer;

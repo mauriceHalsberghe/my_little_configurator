@@ -18,7 +18,7 @@ const sections: { id: ConfiguratorSection; label: string }[] = [
 export default function Navigation ({ activeSection, onSelectSection }: NavigationProps) {
     return (
         <nav className={styles.navigation}>
-            {sections.map(({ id, label }) => (
+            {sections.map(({ id, label }, index) => (
                 <button
                     className={`${styles["navigation__item"]} ${activeSection === id ? styles["navigation__item--active"] : ""}`}
                     key={id}
@@ -26,6 +26,7 @@ export default function Navigation ({ activeSection, onSelectSection }: Navigati
                     aria-pressed={activeSection === id}
                     onClick={() => onSelectSection(id)}
                 >
+                    <span>{index + 1}</span>
                     {label}
                 </button>
             ))}

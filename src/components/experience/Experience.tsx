@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useThree } from "@react-three/fiber";
-import { ContactShadows } from "@react-three/drei";
+import { SoftShadows } from "@react-three/drei";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
@@ -13,11 +13,11 @@ const CAMERA_PRESETS: Record<
     ConfiguratorSection,
     { position: [number, number, number]; target: [number, number, number] }
 > = {
-    color: { position: [-3, 4, 18], target: [0.5, -0.5, 0] },
-    finish: { position: [-9, 3.5, 11], target: [1.5, -1, 0] },
-    trays: { position: [0.5, 9, 10], target: [0.5, -1, 3] },
-    interface: { position: [0.5, 5, 7], target: [0.5, 1, 0] },
-    glass: { position: [7, 1, 10], target: [0.5, -2, -0.5] },
+    color: { position: [-3, 3, 18], target: [0, -0.5, 0] },
+    finish: { position: [-8, 3.5, 15], target: [0, -0.5, 0] },
+    trays: { position: [0, 9, 10], target: [0, -5, 0] },
+    interface: { position: [0, 5, 7], target: [0, 1, 0] },
+    glass: { position: [7, 1, 10], target: [-1, -2, -0.5] },
 };
 
 const CameraRig = ({ section }: { section: ConfiguratorSection }) => {
@@ -65,16 +65,11 @@ const CameraRig = ({ section }: { section: ConfiguratorSection }) => {
 const Experience = ({ section }: { section: ConfiguratorSection }) => {
     return (
         <>
+            <SoftShadows size={8} samples={16} focus={0} />
+
             <CameraRig section={section} />
             <AirFryer section={section} />
             <Floor />
-            <ContactShadows
-                position={[0, -3, 0]}
-                opacity={0.5}
-                blur={2.5}
-                far={3}
-                scale={10}
-            />
             <LightSetup />
         </>
     );

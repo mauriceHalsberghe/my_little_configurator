@@ -4,8 +4,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { getMaterials } from "./parts";
 
-const SHINY = { roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.03 };
-const MATTE = { roughness: 0.5, clearcoat: 0 };
+const SHINY = { roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.03 };
+const MATTE = { roughness: 0.55, clearcoat: 0 };
 
 export function useFinishAnimation(scene: THREE.Object3D, materialName: string, shiny: boolean) {
     const first = useRef(true);
