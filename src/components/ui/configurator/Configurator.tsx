@@ -1,28 +1,30 @@
 import { COLORS } from "../../../config/colors";
+import { PRICING } from "../../../config/pricing";
 import { useConfig } from "../../../store";
+import Logo from "../logo/Logo";
 import Navigation, { type ConfiguratorSection } from "../navigation/Navigation";
 
 import OptionGroup from "./OptionGroup";
 import styles from "./configurator.module.css";
 
 const FINISH_OPTIONS = [
-    { label: "Shiny", value: true },
-    { label: "Matte", value: false },
+    { label: "Shiny", value: true, price: PRICING.shinyFinish },
+    { label: "Matte", value: false, price: 0 },
 ];
 
 const TRAY_OPTIONS = [
-    { label: "Single", value: false },
-    { label: "Double", value: true },
+    { label: "Single", value: false, price: 0 },
+    { label: "Double", value: true, price: PRICING.doubleTray },
 ];
 
 const INTERFACE_OPTIONS = [
-    { label: "Analog", value: false },
-    { label: "Digital", value: true },
+    { label: "Analog", value: false, price: 0 },
+    { label: "Digital", value: true, price: PRICING.digitalInterface },
 ];
 
 const GLASS_OPTIONS = [
-    { label: "No glass", value: false },
-    { label: "Glass", value: true },
+    { label: "No glass", value: false, price: 0 },
+    { label: "Glass", value: true, price: PRICING.glassWindow },
 ];
 
 type ConfiguratorProps = {
@@ -58,9 +60,18 @@ export default function Configurator({
     const activeStep = sectionOrder.indexOf(activeSection) + 1;
     const isLastSection = activeStep === sectionOrder.length;
     const nextSection = sectionOrder[activeStep];
+    const totalPrice =
+        PRICING.base +
+        (shiny ? PRICING.shinyFinish : 0) +
+        (tray ? PRICING.doubleTray : 0) +
+        (digital ? PRICING.digitalInterface : 0) +
+        (glass ? PRICING.glassWindow : 0);
 
     return (
         <>
+
+            <Logo />
+
             <Navigation
                 activeSection={activeSection}
                 onSelectSection={onSelectSection}
@@ -108,6 +119,7 @@ export default function Configurator({
                         options={COLORS}
                         value={color}
                         onChange={setColor}
+                        showColorSwatches
                     />
                 )}
 
@@ -159,7 +171,7 @@ export default function Configurator({
 
                     <div className={styles["configurator__price-row"]}>
                         <p className={styles["configurator__price-label"]}>Total</p>
-                        <p className={styles["configurator__price-value"]}>—</p>
+                        <p className={styles["configurator__price-value"]}>€ {totalPrice}.00</p>
                     </div>
 
                     <button

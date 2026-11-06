@@ -1,4 +1,4 @@
-import { Environment, useHelper } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
@@ -7,9 +7,9 @@ const LightSetup = () => {
     const fillLightRef = useRef<THREE.DirectionalLight>(null!);
     const topLightRef = useRef<THREE.DirectionalLight>(null!);
 
-    useHelper(keyLightRef, THREE.DirectionalLightHelper, 1, "#00ff22");
-    useHelper(fillLightRef, THREE.DirectionalLightHelper, 1, "#0062ff");
-    useHelper(topLightRef, THREE.DirectionalLightHelper, 1, "#fee904");
+    // useHelper(keyLightRef, THREE.DirectionalLightHelper, 1, "#00ff22");
+    // useHelper(fillLightRef, THREE.DirectionalLightHelper, 1, "#0062ff");
+    // useHelper(topLightRef, THREE.DirectionalLightHelper, 1, "#fee904");
 
     return (
         <>
@@ -36,13 +36,13 @@ const LightSetup = () => {
             <directionalLight
                 ref={keyLightRef}
                 position={[-5, 7, 5]}
-                intensity={0.4}
+                intensity={0.5}
                 color="#fff2d6"
             />
             <directionalLight
                 ref={fillLightRef}
                 position={[5, 4, 3]}
-                intensity={0.3}
+                intensity={0.5}
                 color="#fff2d6"
                 
             />

@@ -1,3 +1,14 @@
+:root {
+  --color-white: #f6f6f3;
+  --color-black: #171717;
+  --color-gray: #818181;
+
+  --color-accent: #e33131;
+  --color-accent-dark: hsl(0, 66%, 40%);
+
+  --color-shadow: rgba(23, 23, 23, 0.1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -18,7 +29,7 @@ body {
   flex: 1 1 auto;
   min-width: 0;
   height: 100vh;
-  background: #f3f4f6;
+  background: var(--color-white);
 }
 
 .viewer canvas {

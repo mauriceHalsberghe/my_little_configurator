@@ -1,6 +1,6 @@
 export const COLORS = [
-  { label: "Red",   value: "#c8372d" },
-  { label: "Gray", value: "#555555" },
-  { label: "Green",   value: "#527d32" },
-  { label: "Pink", value: "#f976be" },
+  { label: "Terracotta", value: "#c8372d" },
+  { label: "Silver Mist", value: "#9ca3a9" },
+  { label: "Sage", value: "#8a9a5b" },
+  { label: "Rose Quartz", value: "#ffbde2" },
 ] as const;

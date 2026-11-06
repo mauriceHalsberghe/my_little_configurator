@@ -1,0 +1,39 @@
+.logo {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  line-height: 0;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  background-color: var(--color-white);
+}
+
+.svg {
+  height: 3rem;
+  width: auto;
+  overflow: visible;
+}
+
+.fry {
+  fill: var(--color-black);
+  transition: fill 0.2s ease;
+}
+
+.day {
+  fill: var(--color-accent);
+  transition: fill 0.2s ease;
+}
+
+
+@media (max-width: 768px) {
+  .logo {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .svg {
+    height: 1.5rem;
+  }
+}

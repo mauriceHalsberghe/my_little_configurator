@@ -7,8 +7,8 @@
     min-height: 100vh;
     width: var(--configurator-width);
     padding: 3rem;
-    color: #171717;
-    background-color: white;
+    color: var(--color-black);
+    background-color: var(--color-white);
     border-radius: 0.5rem;
 }
 
@@ -39,21 +39,22 @@
     padding: 0;
     border: 0;
     border-radius: 1rem;
-    background-color: #d1d1d1;
+    background-color: var(--color-shadow);
     cursor: pointer;
+    transition: background 200ms ease;
 
     &:focus-visible {
-        outline: 2px solid #171717;
+        outline: 2px solid var(--color-black);
         outline-offset: 3px;
     }
 }
 
 .configurator__step--active {
-    background-color: rgb(227, 49, 49);
+    background-color: var(--color-accent);
 }
 
 .configurator__step--completed {
-    background-color: rgb(178, 36, 36);
+    background-color: var(--color-accent-dark);
 }
 
 
@@ -77,13 +78,13 @@
 
 .configurator__section-heading {
     margin: 0;
-    color: #171717;
+    color: var(--color-black);
     font-size: 3rem;
 }
 
 .configurator__section-subtitle {
     margin: 0;
-    color: #666;
+    color: var(--color-text-muted);
     font-size: 1.4rem;
     line-height: 1.5;
 }
@@ -100,22 +101,23 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 2rem;
-    border-top: 2px solid #666;
+    border-top: 2px solid var(--color-gray);
 }
 
 .configurator__price-label {
     margin: 0;
-    color: #171717;
+    color: var(--color-black);
     font-size: 1.1rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
+    display: flex;
 }
 
 .configurator__price-value {
     margin: 0;
-    color: #171717;
-    font-size: 2rem;
+    color: var(--color-black);
+    font-size: 2.5rem;
     font-weight: 600;
 }
 
@@ -125,33 +127,49 @@
     justify-content: space-between;
     gap: 0.5rem;
     min-width: 0;
-    color: #171717;
+    color: var(--color-black);
     cursor: pointer;
-    border: 1px solid rgb(148, 148, 148);
+    border: 2px solid var(--color-gray);
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 2rem 1rem;
     font-size: 1.5rem;
     min-height: 6rem;
     max-height: 6rem;
 
     &:has(input:checked) {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: var(--color-shadow);
         font-weight: 600;
-        border: 3px solid rgb(0, 0, 0);
+        border: 3px solid var(--color-black);
+    }
 
-        &::after {
-            content: "";
-            display: block;
-            width: 1.5rem;
-            height: 1.5rem;
-            flex: 0 0 auto;
-            background: url("../../assets/checkmark.svg") center / contain no-repeat;
-        }
+    &:hover {
+        border: 2px solid var(--color-black);
     }
 
     input {
         display: none;
     }
+}
+
+.configurator__option-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.configurator__color-swatch {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    border: 2px solid var(--color-shadow);
+    border-radius: 50%;
+}
+
+.configurator__option-price {
+    color: var(--color-gray);
+    font-size: 1.2rem;
+    font-weight: 400;
+    white-space: nowrap;
 }
 
 .button {
@@ -160,18 +178,23 @@
     align-items: center;
     gap: 0.5rem;
     min-width: 0;
-    color: white;
+    color: var(--color-white);
     font-weight: 600;
-    background-color: rgb(227, 49, 49);
+    background-color: var(--color-accent);
     cursor: pointer;
     padding: 1.5rem;
     font-size: 1.4rem;
     text-transform: capitalize;
     border: none;
     border-radius: 1rem;
+    transition: background 200ms ease;
 
     img {
         width: 2rem;
+    }
+
+    &:hover {
+        background-color: var(--color-accent-dark);
     }
 }
 

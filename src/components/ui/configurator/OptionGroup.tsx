@@ -1,6 +1,6 @@
 import styles from "./configurator.module.css";
 
-type Option<T> = { label: string; value: T };
+type Option<T> = { label: string; value: T; price?: number };
 
 type OptionGroupProps<T> = {
     title: string;
@@ -9,6 +9,7 @@ type OptionGroupProps<T> = {
     options: readonly Option<T>[];
     value: T;
     onChange: (value: T) => void;
+    showColorSwatches?: boolean;
 };
 
 export default function OptionGroup<T extends string | boolean>({
@@ -18,6 +19,7 @@ export default function OptionGroup<T extends string | boolean>({
     options,
     value,
     onChange,
+    showColorSwatches = false,
 }: OptionGroupProps<T>) {
     return (
         <div className={styles["configurator__section"]}>
@@ -33,15 +35,31 @@ export default function OptionGroup<T extends string | boolean>({
                         className={styles["configurator__option-label"]}
                         key={String(option.value)}
                     >
-                    <span>
-                        {option.label}
-                    </span>
-                    <input
-                        type="radio"
-                        name={name}
-                        checked={value === option.value}
-                        onChange={() => onChange(option.value)}
-                    />
+                        <span className={styles["configurator__option-name"]}>
+                            {showColorSwatches && typeof option.value === "string" && (
+                                <span
+                                    className={styles["configurator__color-swatch"]}
+                                    style={{ backgroundColor: option.value }}
+                                    aria-hidden="true"
+                                />
+                            )}
+                            {option.label}
+                        </span>
+
+                        <input
+                            type="radio"
+                            name={name}
+                            checked={value === option.value}
+                            onChange={() => onChange(option.value)}
+                        />
+
+                        {option.price !== undefined && (
+                            <span className={styles["configurator__option-price"]}>
+                                {option.price === 0
+                                    ? ""
+                                    : `+ € ${option.price}.00`}
+                            </span>
+                        )}
                     </label>
                 ))}
             </div>

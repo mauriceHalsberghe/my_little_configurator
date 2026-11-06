@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { useThree } from "@react-three/fiber";
-import { SoftShadows } from "@react-three/drei";
+import { BakeShadows, SoftShadows } from "@react-three/drei";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
 import AirFryer from "../airfryer/AirFryer";
-import Floor from "../floor/Floor";
+import Scene from "../scene/Scene";
 import LightSetup from "./LightSetup";
 import type { ConfiguratorSection } from "../ui/navigation/Navigation";
 
@@ -65,11 +65,12 @@ const CameraRig = ({ section }: { section: ConfiguratorSection }) => {
 const Experience = ({ section }: { section: ConfiguratorSection }) => {
     return (
         <>
-            <SoftShadows size={8} samples={16} focus={0} />
+            <SoftShadows size={25} samples={16} focus={4} />
+            <BakeShadows />
 
             <CameraRig section={section} />
             <AirFryer section={section} />
-            <Floor />
+            <Scene />
             <LightSetup />
         </>
     );

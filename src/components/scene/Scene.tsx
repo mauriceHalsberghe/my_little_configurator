@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const Floor = () => {
+const Scene = () => {
     const { scene: floorScene } = useGLTF("/models/floor.glb");
     const { scene: wallScene } = useGLTF("/models/wall.glb");
     const { scene: saltAndPepperScene } = useGLTF("/models/salt_and_pepper_shakers.glb");
@@ -29,7 +29,10 @@ const Floor = () => {
             if (object instanceof THREE.Mesh) object.castShadow = true;
         });
         plateScene.traverse((object) => {
-            if (object instanceof THREE.Mesh) object.castShadow = true;
+            if (object instanceof THREE.Mesh) {
+                object.castShadow = true;
+                object.receiveShadow = true;
+            }
         });
         friesScene.traverse((object) => {
             if (object instanceof THREE.Mesh) object.castShadow = true;
@@ -66,4 +69,4 @@ const Floor = () => {
     );
 };
 
-export default Floor;
+export default Scene;

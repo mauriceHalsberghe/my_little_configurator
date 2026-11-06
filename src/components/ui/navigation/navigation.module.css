@@ -6,10 +6,10 @@
   display: flex;
   justify-content: center;
   padding: 0.5rem;
-  background-color: rgb(255, 255, 255, 0.94);
-  border: 1px solid rgb(23, 23, 23, 0.08);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-shadow);
   border-radius: 1rem;
-  box-shadow: 0 0.5rem 1.5rem rgb(0, 0, 0, 0.12);
+  gap: 0.5rem;
 }
 
 .navigation__item {
@@ -17,7 +17,6 @@
   justify-content: center;
   padding: 1rem 3rem;
   border: none;
-  background-color: transparent;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -26,6 +25,9 @@
   white-space: nowrap;
   cursor: pointer;
   border-radius: 0.75rem;
+  background-color: transparent;
+  transition: background 200ms ease;
+
   span {
     flex: 0 0 2rem;
     width: 2rem;
@@ -34,17 +36,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgb(118, 118, 118);
+    border: 2px solid var(--color-gray);
     font-size: 1.1rem;
+  }
+
+  &:hover {
+      background-color: var(--color-shadow);
   }
 }
 
 .navigation__item--active {
-  color: white;
-  background-color: #171717;
+  color: var(--color-white);
+  background-color: var(--color-black);
   span {
-    border: rgb(227, 49, 49);
-    background-color: rgb(227, 49, 49);
+    border: var(--color-accent);
+    background-color: var(--color-accent);
+  }
+    
+  &:hover {
+      background-color: var(--color-black);
   }
 }
 
