@@ -4,6 +4,8 @@
 
 An interactive 3D configurator for the fryday™ air fryer. Choose its color, finish, tray, controls, and viewing window, and see the changes on the model as you make them.
 
+[Live Demo](https://fryday-airfryer.vercel.app/)
+
 ## Technologies
 
 - React
