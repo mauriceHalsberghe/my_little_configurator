@@ -1,16 +1,38 @@
 import { useEffect } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
+const SCENE_MODELS = [
+    "/models/floor.glb",
+    "/models/wall.glb",
+    "/models/salt_and_pepper_shakers.glb",
+    "/models/olive_oil.glb",
+    "/models/knives.glb",
+    "/models/plate.glb",
+    "/models/fries.glb",
+    "/models/pan.glb",
+];
+
 const Scene = () => {
-    const { scene: floorScene } = useGLTF("/models/floor.glb");
-    const { scene: wallScene } = useGLTF("/models/wall.glb");
-    const { scene: saltAndPepperScene } = useGLTF("/models/salt_and_pepper_shakers.glb");
-    const { scene: oliveOilScene } = useGLTF("/models/olive_oil.glb");
-    const { scene: knivesScene } = useGLTF("/models/knives.glb");
-    const { scene: plateScene } = useGLTF("/models/plate.glb");
-    const { scene: friesScene } = useGLTF("/models/fries.glb");
-    const { scene: panScene } = useGLTF("/models/pan.glb");
+    const [
+        floor,
+        wall,
+        saltAndPepper,
+        oliveOil,
+        knives,
+        plate,
+        fries,
+        pan,
+    ] = useLoader(GLTFLoader, SCENE_MODELS);
+    const floorScene = floor.scene;
+    const wallScene = wall.scene;
+    const saltAndPepperScene = saltAndPepper.scene;
+    const oliveOilScene = oliveOil.scene;
+    const knivesScene = knives.scene;
+    const plateScene = plate.scene;
+    const friesScene = fries.scene;
+    const panScene = pan.scene;
 
     useEffect(() => {
         floorScene.traverse((object) => {

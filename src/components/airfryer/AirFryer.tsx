@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import type { ConfiguratorSection } from "../ui/navigation/Navigation";
 import { useConfig } from "../../store";
 import { useColorAnimation } from "./animations/useColorAnimation";
@@ -9,7 +10,10 @@ import { useTrayAnimation } from "./animations/useTrayAnimation";
 import { usePanelAnimation } from "./animations/usePanelAnimation";
 
 const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
-    const { scene } = useGLTF("./models/airfryer_model_v006.glb");
+    const { scene } = useLoader(
+        GLTFLoader,
+        "/models/airfryer_model_v006.glb",
+    );
     const color = useConfig((s) => s.color);
     const shiny = useConfig((s) => s.shiny);
     const tray = useConfig((s) => s.tray);
