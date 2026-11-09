@@ -1,4 +1,6 @@
 import { useState } from "react";
+import arrowLeft from "../../../assets/arrow-left.svg";
+import arrowRight from "../../../assets/arrow-right.svg";
 import { COLORS } from "../../../config/colors";
 import { PRICING } from "../../../config/pricing";
 import { useConfig } from "../../../store";
@@ -238,7 +240,7 @@ export default function Configurator({
                                 }
                             }}
                         >
-                            <img src="./src/assets/arrow-left.svg" alt="" />
+                            <img src={arrowLeft} alt="" />
                         </button>
 
                         <button
@@ -256,7 +258,7 @@ export default function Configurator({
                                 "Add to Cart" :
                                 `Next Step: ${nextSection}`
                             }
-                            <img src="./src/assets/arrow-right.svg" alt="" />
+                            <img src={arrowRight} alt="" />
                         </button>
                     </div>
 
