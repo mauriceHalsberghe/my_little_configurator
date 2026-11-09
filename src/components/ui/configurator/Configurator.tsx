@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { COLORS } from "../../../config/colors";
 import { PRICING } from "../../../config/pricing";
 import { useConfig } from "../../../store";
@@ -5,6 +6,7 @@ import Logo from "../logo/Logo";
 import Navigation, { type ConfiguratorSection } from "../navigation/Navigation";
 
 import OptionGroup from "./OptionGroup";
+import OrderModal from "../order-modal/OrderModal";
 import styles from "./configurator.module.css";
 
 const FINISH_OPTIONS = [
@@ -36,6 +38,7 @@ export default function Configurator({
     activeSection,
     onSelectSection,
 }: ConfiguratorProps) {
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
     const {
         color,
         setColor,
@@ -47,6 +50,7 @@ export default function Configurator({
         setDigital,
         glass,
         setGlass,
+        reset,
     } = useConfig();
 
     const sectionOrder: ConfiguratorSection[] = [
@@ -68,6 +72,19 @@ export default function Configurator({
         (tray ? PRICING.doubleTray : 0) +
         (digital ? PRICING.digitalInterface : 0) +
         (glass ? PRICING.glassWindow : 0);
+    const orderItems = [
+        { label: "Color", value: COLORS.find((option) => option.value === color)?.label ?? color },
+        { label: "Finish", value: shiny ? "Shiny" : "Matte" },
+        { label: "Tray", value: tray ? "Double" : "Single" },
+        { label: "Interface", value: digital ? "Digital" : "Analog" },
+        { label: "Viewing window", value: glass ? "Glass" : "No glass" },
+    ];
+
+    const completeOrder = () => {
+        reset();
+        onSelectSection("color");
+        setIsOrderModalOpen(false);
+    };
 
     return (
         <>
@@ -197,6 +214,8 @@ export default function Configurator({
                             onClick={() => {
                                 if (!isLastSection && nextSection) {
                                     onSelectSection(nextSection);
+                                } else if (isLastSection) {
+                                    setIsOrderModalOpen(true);
                                 }
                             }}
                         >
@@ -211,6 +230,14 @@ export default function Configurator({
                 </footer>
 
             </aside>
+            {isOrderModalOpen && (
+                <OrderModal
+                    items={orderItems}
+                    total={totalPrice}
+                    onPay={completeOrder}
+                    onClose={() => setIsOrderModalOpen(false)}
+                />
+            )}
         </>
     );
 }
