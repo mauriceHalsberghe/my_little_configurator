@@ -28,7 +28,11 @@ export default function OptionGroup<T extends string | boolean>({
 
             <p className={styles["configurator__section-subtitle"]}>{subtitle}</p>
 
-            <div className={styles["configurator__options"]}>
+            <div
+                className={styles["configurator__options"]}
+                role="radiogroup"
+                aria-label={title}
+            >
 
                 {options.map((option) => (
                     <label

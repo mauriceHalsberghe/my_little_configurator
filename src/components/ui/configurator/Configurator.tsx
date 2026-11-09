@@ -2,10 +2,15 @@ import { useState } from "react";
 import arrowLeft from "../../../assets/arrow-left.svg";
 import arrowRight from "../../../assets/arrow-right.svg";
 import { COLORS } from "../../../config/colors";
+import {
+    CONFIGURATOR_SECTIONS,
+    type ConfiguratorSection,
+} from "../../../config/configuratorSections";
 import { PRICING } from "../../../config/pricing";
 import { useConfig } from "../../../store";
+
 import Logo from "../logo/Logo";
-import Navigation, { type ConfiguratorSection } from "../navigation/Navigation";
+import Navigation from "../navigation/Navigation";
 
 import OptionGroup from "./OptionGroup";
 import OrderModal from "../order-modal/OrderModal";
@@ -56,19 +61,14 @@ export default function Configurator({
         reset,
     } = useConfig();
 
-    const sectionOrder: ConfiguratorSection[] = [
-        "color",
-        "finish",
-        "trays",
-        "interface",
-        "glass",
-    ];
-
-    const activeStep = sectionOrder.indexOf(activeSection) + 1;
-    const isFirstSection = activeStep === 1;
-    const isLastSection = activeStep === sectionOrder.length;
-    const previousSection = sectionOrder[activeStep - 2];
-    const nextSection = sectionOrder[activeStep];
+    const activeSectionIndex = CONFIGURATOR_SECTIONS.findIndex(
+        ({ id }) => id === activeSection,
+    );
+    const activeStep = activeSectionIndex + 1;
+    const isFirstSection = activeSectionIndex === 0;
+    const isLastSection = activeSectionIndex === CONFIGURATOR_SECTIONS.length - 1;
+    const previousSection = CONFIGURATOR_SECTIONS[activeSectionIndex - 1]?.id;
+    const nextSection = CONFIGURATOR_SECTIONS[activeSectionIndex + 1]?.id;
     const totalPrice =
         PRICING.base +
         (shiny ? PRICING.shinyFinish : 0) +
@@ -135,17 +135,17 @@ export default function Configurator({
 
                 <div className={styles["configurator__header"]} >
                     <h1 className={styles["configurator__title"]}>Customize your own</h1>
-                    <h2 className={styles["configurator__subtitle"]}>Step {activeStep} / {sectionOrder.length}</h2>
+                    <h2 className={styles["configurator__subtitle"]}>Step {activeStep} / {CONFIGURATOR_SECTIONS.length}</h2>
                 </div>
 
                 <div
                     className={styles["configurator__steps"]}
                 >
-                    {sectionOrder.map((section, index) => (
+                    {CONFIGURATOR_SECTIONS.map((section, index) => (
                         <button
                             type="button"
-                            key={section}
-                            aria-label={`Go to step ${index + 1}: ${section}`}
+                            key={section.id}
+                            aria-label={`Go to step ${index + 1}: ${section.id}`}
                             aria-current={
                                 index === activeStep - 1 ? "step" : undefined
                             }
@@ -160,7 +160,7 @@ export default function Configurator({
                             ]
                                 .filter(Boolean)
                                 .join(" ")}
-                            onClick={() => onSelectSection(section)}
+                            onClick={() => onSelectSection(section.id)}
                         />
                     ))}
                 </div>

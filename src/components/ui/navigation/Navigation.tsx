@@ -1,24 +1,18 @@
 import styles from './navigation.module.css'
-
-export type ConfiguratorSection = "color" | "finish" | "trays" | "interface" | "glass";
+import {
+    CONFIGURATOR_SECTIONS,
+    type ConfiguratorSection,
+} from "../../../config/configuratorSections";
 
 type NavigationProps = {
     activeSection: ConfiguratorSection;
     onSelectSection: (section: ConfiguratorSection) => void;
 };
 
-const sections: { id: ConfiguratorSection; label: string }[] = [
-    { id: "color", label: "Color" },
-    { id: "finish", label: "Finish" },
-    { id: "trays", label: "Trays" },
-    { id: "interface", label: "Interface" },
-    { id: "glass", label: "Glass" },
-];
-
 export default function Navigation ({ activeSection, onSelectSection }: NavigationProps) {
     return (
         <nav className={styles.navigation}>
-            {sections.map(({ id, label }, index) => (
+            {CONFIGURATOR_SECTIONS.map(({ id, label }, index) => (
                 <button
                     className={`${styles["navigation__item"]} ${activeSection === id ? styles["navigation__item--active"] : ""}`}
                     key={id}

@@ -2,8 +2,9 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import type { ConfiguratorSection } from "../../ui/navigation/Navigation";
+import type { ConfiguratorSection } from "../../../config/configuratorSections";
 import { collectParts, type Part } from "./parts";
+import { settleTrayAnimation } from "./settleTrayAnimation";
 
 const TRAY_1 = ["Tray1_Handle", "Tray1_Container"];
 const TRAY_2 = ["Tray2_Handle", "Tray2_Container"];
@@ -83,7 +84,16 @@ export function useTrayAnimation(
 
       if (current.current === null || currentGlass.current !== glass) {
         if (current.current !== null && currentGlass.current !== glass) {
-          tl.current?.progress(1).kill();
+          tl.current?.kill();
+          tl.current = null;
+          settleTrayAnimation(
+            parts,
+            current.current,
+            currentGlass.current ?? false,
+            currentSection.current ?? section,
+            SLIDE.axis,
+            TRAY_SECTION_OPEN_OFFSET,
+          );
 
           const activeTray = tray2 ? parts.tray2 : parts.tray1;
           const activeGlassTray = tray2 ? parts.glassTray2 : parts.glassTray1;
@@ -189,6 +199,15 @@ export function useTrayAnimation(
               : parts.tray1;
 
           tl.current?.kill();
+          tl.current = null;
+          settleTrayAnimation(
+            parts,
+            tray2,
+            glass,
+            currentSection.current ?? section,
+            SLIDE.axis,
+            TRAY_SECTION_OPEN_OFFSET,
+          );
           tl.current = gsap.timeline().to(positions(activeTray), {
             ...slideValue(activeTray, trayOpenOffset),
             duration: 0.5,
@@ -199,12 +218,19 @@ export function useTrayAnimation(
         return;
       }
 
-      // Update the remembered tray before building the new timeline.
+      // Stop and normalize the previous transition before changing the selection refs.
+      tl.current?.kill();
+      tl.current = null;
+      settleTrayAnimation(
+        parts,
+        current.current ?? tray2,
+        currentGlass.current ?? glass,
+        currentSection.current ?? section,
+        SLIDE.axis,
+        TRAY_SECTION_OPEN_OFFSET,
+      );
       current.current = tray2;
       currentSection.current = section;
-
-      // If a previous transition is still running, finish it immediately so the next one starts cleanly.
-      tl.current?.progress(1).kill();
 
       const { slideOut, fadeOut, fadeIn, slideIn } = TIMING;
       const tFadeOut = slideOut;

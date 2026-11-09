@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Experience from "./components/experience/Experience.tsx";
-import type { ConfiguratorSection } from "./components/ui/navigation/Navigation.tsx";
+import type { ConfiguratorSection } from "./config/configuratorSections";
 import * as THREE from "three";
 import Configurator from "./components/ui/configurator/Configurator.tsx";
 import LoadingScreen from "./components/ui/loading/LoadingScreen.tsx";

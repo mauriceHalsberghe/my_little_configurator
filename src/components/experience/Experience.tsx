@@ -7,7 +7,7 @@ import * as THREE from "three";
 import AirFryer from "../airfryer/AirFryer";
 import Scene from "../scene/Scene";
 import LightSetup from "./LightSetup";
-import type { ConfiguratorSection } from "../ui/navigation/Navigation";
+import type { ConfiguratorSection } from "../../config/configuratorSections";
 
 const CAMERA_PRESETS: Record<
     ConfiguratorSection,

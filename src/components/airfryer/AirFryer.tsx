@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import type { ConfiguratorSection } from "../ui/navigation/Navigation";
+import type { ConfiguratorSection } from "../../config/configuratorSections";
 import { useConfig } from "../../store";
 import { useColorAnimation } from "./animations/useColorAnimation";
 import { useFinishAnimation } from "./animations/useFinishAnimation";
