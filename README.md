@@ -61,3 +61,11 @@ The base price is €120. The total updates as options are selected. The default
 Select **Start customizing** to move through the five options. Use the previous and next buttons or the step indicators to navigate. The 3D model updates with the selected options, and the camera changes view between steps.
 
 On the final step, **Add to Cart** opens an order summary with the selected options and total. **Pay** closes the summary and resets the configurator; it does not process a payment.
+
+## Author
+
+Created by Maurice Halsberghe, Programming student at Artevelde University of Applied Sciences in Ghent. Below you can find my profiles and portfolio.
+
+- [GitHub](https://github.com/mauriceHalsberghe)
+- [LinkedIn](https://www.linkedin.com/in/maurice-halsberghe)
+- [My Portfolio](https://mauriceh.vercel.app/)

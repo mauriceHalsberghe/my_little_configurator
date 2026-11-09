@@ -23,6 +23,7 @@ const SLIDE = { axis: "z" as "x" | "y" | "z", distance: 3 };
 const TRAY_SECTION_OPEN_OFFSET = 1.5;
 const GLASS_TRANSITION_DURATION = 0.8;
 
+// These timings define the order and pace of the tray swap.
 const TIMING = { slideOut: 0.35, fadeOut: 0.4, fadeIn: 0.4, slideIn: 0.35 };
 
 // Flatten each part into its material list so we can fade opacity and depth writes together.
@@ -82,8 +83,11 @@ export function useTrayAnimation(
       const allGlassParts = [...parts.glassTray1, ...parts.glassTray2];
       const trayOpenOffset = section === "trays" ? TRAY_SECTION_OPEN_OFFSET : 0;
 
+      // Initialize visibility and placement without animating the first render.
       if (current.current === null || currentGlass.current !== glass) {
+        // When the glass setting changes, crossfade between the matching tray models.
         if (current.current !== null && currentGlass.current !== glass) {
+          // Finish from a stable state before beginning the material crossfade.
           tl.current?.kill();
           tl.current = null;
           settleTrayAnimation(
@@ -100,6 +104,7 @@ export function useTrayAnimation(
           const leaving = currentGlass.current ? activeGlassTray : activeTray;
           const entering = glass ? activeGlassTray : activeTray;
 
+          // Keep only the old and new representations visible during the crossfade.
           setVisible(parts.tray1, false);
           setVisible(parts.tray2, false);
           setVisible(parts.glassTray1, false);
@@ -111,6 +116,7 @@ export function useTrayAnimation(
           const leavingMats = mats(leaving);
           const enteringMats = mats(entering);
 
+          // Fade the new representation in as the old one fades out.
           setFading(leaving);
           setFading(entering);
           enteringMats.forEach(({ material }) => {
@@ -140,6 +146,7 @@ export function useTrayAnimation(
             0,
           );
 
+          // Restore original material values after the visual transition completes.
           timeline.call(() => {
             setVisible(leaving, false);
             leavingMats.forEach(({ material, opacity }) => {
@@ -158,6 +165,7 @@ export function useTrayAnimation(
           return;
         }
 
+        // Initially show only the selected tray representation.
         if (glass) {
           setVisible(parts.tray1, false);
           setVisible(parts.tray2, false);
@@ -169,6 +177,7 @@ export function useTrayAnimation(
         setVisible(allGlassParts, glass);
         setVisible(tray2 ? parts.glassTray1 : parts.glassTray2, false);
 
+        // Opening the trays section offsets the active tray to present it to the user.
         if (section === "trays") {
           const visibleTray = glass ? (tray2 ? parts.glassTray2 : parts.glassTray1) : tray2 ? parts.tray2 : parts.tray1;
           visibleTray.forEach(({ obj, position }) => {
@@ -188,6 +197,7 @@ export function useTrayAnimation(
       const incoming = tray2 ? tray2Parts : tray1;
       const outgoing = tray2 ? tray1 : tray2Parts;
 
+      // If the tray stays selected, entering or leaving its section only opens or closes it.
       if (current.current === tray2) {
         if (currentSection.current !== section) {
           const activeTray = glass

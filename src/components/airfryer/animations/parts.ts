@@ -2,8 +2,8 @@ import * as THREE from "three";
 
 export type Part = {
   obj: THREE.Object3D;
-  position: THREE.Vector3; // rest position
-  scale: THREE.Vector3; // rest scale
+  position: THREE.Vector3;
+  scale: THREE.Vector3;
   mats: {
     material: THREE.Material;
     opacity: number;
@@ -24,7 +24,6 @@ export function collectParts(scene: THREE.Object3D, names: string[]): Part[] {
     obj.traverse((child) => {
       if (!(child instanceof THREE.Mesh)) return;
 
-      // Own copy of every material, so fading this part never affects other meshes
       if (!child.userData.cloned) {
         child.material = Array.isArray(child.material)
           ? child.material.map((m: THREE.Material) => m.clone())
@@ -48,7 +47,6 @@ export function collectParts(scene: THREE.Object3D, names: string[]): Part[] {
   });
 }
 
-// All materials with a given name, including the clones made above
 export function getMaterials<T extends THREE.Material>(
   scene: THREE.Object3D,
   name: string,
