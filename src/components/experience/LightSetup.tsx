@@ -18,7 +18,6 @@ const LightSetup = () => {
             <directionalLight
                 ref={topLightRef}
                 position={[0, 20, 2]}
-                scale={5}
                 intensity={2.5}
                 color="#fff7e4"
                 castShadow

@@ -112,7 +112,7 @@
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 550px) {
     .modal {
         width: min(100%, 30rem);
     }
