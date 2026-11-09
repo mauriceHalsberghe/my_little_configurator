@@ -64,7 +64,7 @@ export default function OrderModal({
                     className={styles.pay}
                     onClick={onPay}
                 >
-                    Pay
+                    Pay (reset)
                 </button>
             </section>
         </div>

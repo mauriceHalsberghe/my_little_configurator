@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLoader } from "@react-three/fiber";
-import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import type { ConfiguratorSection } from "../../config/configuratorSections";
+import { AIRFRYER_ASSET, applyAssetShadows } from "../../config/sceneAssets";
 import { useConfig } from "../../store";
 import { useColorAnimation } from "./animations/useColorAnimation";
 import { useFinishAnimation } from "./animations/useFinishAnimation";
@@ -12,7 +12,7 @@ import { usePanelAnimation } from "./animations/usePanelAnimation";
 const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
     const { scene } = useLoader(
         GLTFLoader,
-        "/models/airfryer_model_v006.glb",
+        AIRFRYER_ASSET.url,
     );
     const color = useConfig((s) => s.color);
     const shiny = useConfig((s) => s.shiny);
@@ -22,12 +22,7 @@ const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
 
 
     useEffect(() => {
-        scene.traverse((obj) => {
-            if ((obj as THREE.Mesh).isMesh) {
-                obj.castShadow = true;
-                obj.receiveShadow = true;
-            }
-        });
+        applyAssetShadows(scene, AIRFRYER_ASSET);
     }, [scene]);
 
     useColorAnimation(scene, "Red plastic", color);
@@ -35,7 +30,14 @@ const AirFryer = ({ section }: { section: ConfiguratorSection }) => {
     useTrayAnimation(scene, tray, glass, section);
     usePanelAnimation(scene, digital);
 
-    return <primitive object={scene} position-y={-3} />;
+    return (
+        <primitive
+            object={scene}
+            position={AIRFRYER_ASSET.position}
+            scale={AIRFRYER_ASSET.scale}
+            rotation-y={AIRFRYER_ASSET.rotationY}
+        />
+    );
 };
 
 export default AirFryer;
