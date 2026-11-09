@@ -27,10 +27,12 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .logo {
     top: 1rem;
     left: 1rem;
+    padding: 0.5rem 1rem ;
+    border-radius: 0.75rem;
   }
 
   .svg {

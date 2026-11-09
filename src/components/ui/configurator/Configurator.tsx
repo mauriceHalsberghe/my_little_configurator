@@ -58,7 +58,9 @@ export default function Configurator({
     ];
 
     const activeStep = sectionOrder.indexOf(activeSection) + 1;
+    const isFirstSection = activeStep === 1;
     const isLastSection = activeStep === sectionOrder.length;
+    const previousSection = sectionOrder[activeStep - 2];
     const nextSection = sectionOrder[activeStep];
     const totalPrice =
         PRICING.base +
@@ -174,21 +176,38 @@ export default function Configurator({
                         <p className={styles["configurator__price-value"]}>€ {totalPrice}.00</p>
                     </div>
 
-                    <button
-                        type="button"
-                        className={styles.button}
-                        onClick={() => {
-                            if (!isLastSection && nextSection) {
-                                onSelectSection(nextSection);
+                    <div className={styles["configurator__actions"]}>
+                        <button
+                            type="button"
+                            className={`${styles.button} ${styles["button--previous"]}`}
+                            aria-label="Previous step"
+                            disabled={isFirstSection}
+                            onClick={() => {
+                                if (previousSection) {
+                                    onSelectSection(previousSection);
+                                }
+                            }}
+                        >
+                            <img src="./src/assets/arrow-left.svg" alt="" />
+                        </button>
+
+                        <button
+                            type="button"
+                            className={styles.button}
+                            onClick={() => {
+                                if (!isLastSection && nextSection) {
+                                    onSelectSection(nextSection);
+                                }
+                            }}
+                        >
+                            { isLastSection ?
+                                "Add to Cart" :
+                                `Next Step: ${nextSection}`
                             }
-                        }}
-                    >
-                        { isLastSection ? 
-                            "Add to Cart" : 
-                            `Next: ${nextSection}`
-                        }
-                        <img src="./src/assets/arrow-right.svg" /> 
-                    </button>
+                            <img src="./src/assets/arrow-right.svg" alt="" />
+                        </button>
+                    </div>
+
                 </footer>
 
             </aside>

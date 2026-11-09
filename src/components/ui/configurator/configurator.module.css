@@ -63,10 +63,6 @@
     flex-direction: column;
     gap: 1rem;
     padding-top: 3rem;
-
-    @media (max-width: 1200px) {
-        padding-top: 0;
-    }
 }
 
 .configurator__options {
@@ -94,6 +90,19 @@
     flex-direction: column;
     gap: 1rem;
     margin-top: auto;
+}
+
+.configurator__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.configurator__actions .button {
+    height: 4.8rem;
+}
+
+.configurator__actions .button:not(.button--previous) {
+    flex: 1;
 }
 
 .configurator__price-row {
@@ -198,29 +207,43 @@
     }
 }
 
-@media (max-width: 1200px) {
-    .configurator {
-        flex: 1 1 auto;
-        width: 100%;
-        padding: 1.5rem;
+.button--previous {
+    flex: 0 0 4.8rem;
+    width: 4.8rem;
+    height: 4.8rem;
+    padding: 1rem;
+    background-color: var(--color-accent-dark);
+
+    img {
+        width: 2rem;
+    }
+
+    &:hover:not(:disabled) {
+        background-color: hsl(0, 66%, 32%);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
     }
 }
 
-@media (max-width: 640px) {
+
+@media (max-width: 1400px) {
+    .configurator {
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: auto;
+        padding: 1.5rem 3rem;
+    }
+
     .configurator__header {
-        align-items: flex-start;
-        gap: 0.75rem;
+        display: none;
     }
 
-    .configurator__title,
-    .configurator__subtitle {
-        margin: 0;
-        font-size: 0.85rem;
-        letter-spacing: 0.08rem;
-    }
-
-    .configurator__subtitle {
-        white-space: nowrap;
+    .configurator__section {
+        padding-top: 0;
+        gap: 0.5rem;
     }
 
     .configurator__section-heading {
@@ -228,6 +251,112 @@
     }
 
     .configurator__section-subtitle {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
+
+    .configurator__options {
+        margin-top: 1rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .configurator__option-label {
+        padding: 1rem;
+        min-height: fit-content;
+    }
+
+    .configurator__color-swatch {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .configurator__footer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .configurator__price-row {
+        gap: 3rem;
+        border-top: none;
+        padding: 0;
+    }
+
+    .button {
+        padding: 1.5rem;
+        font-size: 1.3rem;
+
+        img {
+            width: 1.5rem;
+        }
+    }
+
+    
+    .configurator__price-row {
+        gap: 1rem;
+        min-width: fit-content;
+    }
+
+    .configurator__actions .button {
+        height: 4rem;
+    }
+
+    .button--previous {
+        flex-basis: 4rem;
+        width: 4rem;
+        height: 4rem;
+
+        img {
+            width: 1.8rem;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+
+    .configurator {
+        padding: 1rem;
+    }
+    .configurator__options {
+        margin-top: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+
+    .configurator__price-value {
+        font-size: 2rem;
+    }
+
+    .configurator__actions .button {
+        height: 4rem;
+    }
+
+    .button {
+        padding: 1rem;
+    }
+
+    .button--previous {
+        flex-basis: 4rem;
+        width: 4rem;
+        height: 4rem;
+
+        img {
+            width: 1.8rem;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .configurator__footer {
+        flex-direction: column;
+        align-items:normal;
+    }
+
+    .configurator__step {
+        height: .375rem;
+    }
+
+    .configurator__option-name {
+        font-size: 1.2rem;
+    }
+
 }
