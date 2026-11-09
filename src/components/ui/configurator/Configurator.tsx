@@ -39,6 +39,7 @@ export default function Configurator({
     onSelectSection,
 }: ConfiguratorProps) {
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
     const {
         color,
         setColor,
@@ -83,20 +84,52 @@ export default function Configurator({
     const completeOrder = () => {
         reset();
         onSelectSection("color");
+        setHasStarted(false);
         setIsOrderModalOpen(false);
     };
 
     return (
         <>
 
-            <Logo />
+            <Logo onReset={completeOrder} />
 
-            <Navigation
-                activeSection={activeSection}
-                onSelectSection={onSelectSection}
-            />
+            {hasStarted && (
+                <Navigation
+                    activeSection={activeSection}
+                    onSelectSection={onSelectSection}
+                />
+            )}
 
             <aside className={styles.configurator}>
+                {!hasStarted ? (
+                    <section className={styles["welcome"]}>
+                        <div>
+                            <p className={styles["welcome__eyebrow"]}>
+                                fryday™ airfryer
+                            </p>
+                            <h1 className={styles["welcome__title"]}>
+                                Make it <span>yours</span>.
+                            </h1>
+                            <p className={styles["welcome__description"]}>
+                                Create an air fryer that fits your style. 
+                                <br />
+                                Choose its color, finish, tray, controls, and viewing
+                                window, then preview your choices live on the 3D model.
+                            </p>
+                        </div>
+                        <button
+                            type="button"
+                            className={`${styles.button} ${styles["welcome__start"]}`}
+                            onClick={() => {
+                                onSelectSection("color");
+                                setHasStarted(true);
+                            }}
+                        >
+                            Start customizing
+                        </button>
+                    </section>
+                ) : (
+                    <>
 
                 <div className={styles["configurator__header"]} >
                     <h1 className={styles["configurator__title"]}>Customize your own</h1>
@@ -229,6 +262,8 @@ export default function Configurator({
 
                 </footer>
 
+                    </>
+                )}
             </aside>
             {isOrderModalOpen && (
                 <OrderModal

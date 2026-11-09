@@ -19,6 +19,45 @@
     letter-spacing: 0.15rem;
 }
 
+.welcome {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6rem;
+}
+
+.welcome__eyebrow {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.16rem;
+    text-transform: uppercase;
+}
+
+.welcome__title {
+    margin: 0;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    line-height: 1.05;
+
+    span {
+        color: var(--color-accent);
+        text-decoration: underline;
+    }
+}
+
+.welcome__description {
+    max-width: 32rem;
+    margin: 1.5rem 0 0;
+    color: var(--color-gray);
+    font-size: 1.25rem;
+    line-height: 1.6;
+}
+
+.welcome__start {
+    width: 100%;
+}
+
 .configurator__title {
     font-size: 1.2rem;
 }

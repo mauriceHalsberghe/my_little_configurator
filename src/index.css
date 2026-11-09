@@ -11,6 +11,10 @@
 
 * {
   box-sizing: border-box;
+  &::selection {
+    color: var(--color-white);
+    background: var(--color-accent);
+  }
 }
 
 body {
@@ -26,6 +30,7 @@ body {
 }
 
 .viewer {
+  position: relative;
   flex: 1 1 auto;
   min-width: 0;
   height: 100vh;

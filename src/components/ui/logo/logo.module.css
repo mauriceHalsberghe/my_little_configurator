@@ -6,8 +6,15 @@
   line-height: 0;
   border-radius: 1rem;
   padding: 1rem 2rem;
-  text-decoration: none;
+  border: 0;
   background-color: var(--color-white);
+  cursor: pointer;
+}
+
+.logo--loading {
+  position: static;
+  padding: 0;
+  background-color: transparent;
 }
 
 .svg {
@@ -33,6 +40,12 @@
     left: 1rem;
     padding: 0.5rem 1rem ;
     border-radius: 0.75rem;
+  }
+
+  .logo--loading {
+    top: auto;
+    left: auto;
+    padding: 0;
   }
 
   .svg {

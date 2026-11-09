@@ -54,7 +54,7 @@ const Scene = () => {
     return (
         <>
             <primitive object={floorScene} position={[0, -3.001, 4]} />
-            <primitive object={wallScene} position={[0, -3.001, 0]}/>
+            <primitive object={wallScene} position={[0, -4.65, 0]}/>
             
             <primitive object={saltAndPepperScene} scale={10} position={[5, -3, -2]} rotation-y={- Math.PI / 8} />
             <primitive object={oliveOilScene} scale={0.1} position={[8, -3.15, -1]} />

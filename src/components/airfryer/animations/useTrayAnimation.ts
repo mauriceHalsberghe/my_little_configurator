@@ -22,7 +22,7 @@ const SLIDE = { axis: "z" as "x" | "y" | "z", distance: 3 };
 const TRAY_SECTION_OPEN_OFFSET = 1.5;
 const GLASS_TRANSITION_DURATION = 0.8;
 
-const TIMING = { slideOut: 0.5, fadeOut: 0.5, fadeIn: 0.5, slideIn: 0.5 };
+const TIMING = { slideOut: 0.35, fadeOut: 0.4, fadeIn: 0.4, slideIn: 0.35 };
 
 // Flatten each part into its material list so we can fade opacity and depth writes together.
 const mats = (parts: Part[]) => parts.flatMap((p) => p.mats);
